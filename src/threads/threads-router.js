@@ -26,9 +26,9 @@ threadsRouter.route('/')
     })
     .post(requireAuth, jsonParser, (req, res, next) => {
         const { name, board_id, first_post_content } = req.body
-        const newThread = { "name": name, "board_id": board_id, "author_id": req.user.id, "first_post_content": first_post_content }
+        const newThread = { "name": name, "board_id": board_id, "author_id": req.user.id }
 
-        for (const [key, value] of Object.entries(newThread)) {
+        for (const [key, value] of Object.entries({...newThread, first_post_content: first_post_content})) {
             if (value == null) {
                 return res.status(400).json({
                     error: { message: `Missing '${key}' in request body` }
@@ -38,7 +38,8 @@ threadsRouter.route('/')
 
         ThreadsService.insertThread(
             req.app.get('db'),
-            newThread
+            newThread,
+            first_post_content
         )
             .then(thread => {
                 res

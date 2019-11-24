@@ -13,8 +13,7 @@ const ThreadsService = {
     countThreadsInBoard(knex, boardId) {
         return knex('threads').count('id').where('board_id', boardId).first().then(c => parseInt(c.count))
     },
-    insertThread(knex, newThread) {
-        let firstPostContent = newThread.first_post_content
+    insertThread(knex, newThread, firstPostContent) {
         
         return knex
             .insert(newThread)

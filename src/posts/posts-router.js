@@ -27,7 +27,7 @@ postsRouter.route('/')
     })
     .post(requireAuth, jsonParser, (req, res, next) => {
         const { content, thread_id } = req.body
-        const newPost = { "content": content, "thread_id": thread_id }
+        const newPost = { "content": content, "thread_id": thread_id, "author_id": req.user.id }
 
         for (const [key, value] of Object.entries(newPost)) {
             if (value == null) {

@@ -2,6 +2,7 @@ const path = require('path')
 const express = require('express')
 const xss = require('xss')
 const ThreadsService = require('./threads-service')
+const UsersRouter = require('../users/users-router')
 const { requireAuth } = require('../middleware/jwt-auth')
 
 const threadsRouter = express.Router()
@@ -12,7 +13,9 @@ const serializeThread = thread => ({
     name: xss(thread.name),
     author_id: thread.author_id,
     date_created: thread.date_created,
-    board_id: thread.board_id
+    board_id: thread.board_id,
+    reply_count: thread.reply_count,
+    author_name: thread.author_name,
 })
 
 threadsRouter.route('/')

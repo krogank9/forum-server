@@ -4,6 +4,9 @@ const xss = require('xss')
 const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/
 
 const UsersService = {
+  getById(knex, id) {
+    return knex.from('users').select('*').where('id', id).first()
+  },
   hasUserWithUserName(db, user_name) {
     return db('users')
       .where({ user_name })

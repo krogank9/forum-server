@@ -5,6 +5,13 @@ const UsersService = require('./users-service')
 const usersRouter = express.Router()
 const jsonParser = express.json()
 
+const serializeUser = user => ({
+  id: user.id,
+  date_created: user.date_created,
+  user_name: user.user_name,
+//  admin: user.admin,
+})
+
 usersRouter
   .post('/', jsonParser, (req, res, next) => {
     const { password, user_name } = req.body
@@ -51,6 +58,28 @@ usersRouter
           })
       })
       .catch(next)
+  })
+
+usersRouter.route('/:user_id')
+  .all((req, res, next) => {
+      UsersService.getById(
+          req.app.get('db'),
+          req.params.user_id
+      )
+          .then(user => {
+              if (!user) {
+                  return res.status(404).json({
+                      error: { message: `User doesn't exist` }
+                  })
+              }
+
+              res.user = user // save the user for the next middleware
+              next()
+          })
+          .catch(next)
+  })
+  .get((req, res, next) => {
+    res.json(serializeUser(res.user))
   })
 
 module.exports = usersRouter

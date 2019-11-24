@@ -12,7 +12,8 @@ const serializePost = post => ({
     date_created: post.date_created,
     author_id: post.author_id,
     thread_id: post.thread_id,
-    content: xss(post.content)
+    content: xss(post.content),
+    author_name: post.author_name
 })
 
 postsRouter.route('/')

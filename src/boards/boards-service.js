@@ -1,20 +1,20 @@
 const ThreadsService = require('../threads/threads-service');
 
 const BoardsService = {
-    getAllBoards(knex) {
-        return knex.select('*').from('boards').then(boards => {
-            console.log(boards)
+    addInfoToBoards(knex, boards) {
+        let b = Array.isArray(boards) ? boards : [boards]
 
-            // return the number of threads in each board too
-            let promises = boards.map(curBoard => {
-                return ThreadsService.countThreadsInBoard(knex, curBoard.id).then(count => {
-                    console.log({...curBoard, threadCount: count});
-                    return {...curBoard, threadCount: count}
-                })
+        // return the number of threads in each board too
+        b = b.map(curBoard => {
+            return ThreadsService.countThreadsInBoard(knex, curBoard.id).then(count => {
+                return { ...curBoard, threadCount: count }
             })
-
-            return Promise.all(promises)
         })
+
+        return Array.isArray(boards) ? Promise.all(b) : b[0]
+    },
+    getAllBoards(knex) {
+        return knex.select('*').from('boards').then(boards => this.addInfoToBoards(knex, boards))
     },
     insertBoard(knex, newBoard) {
         return knex
@@ -26,10 +26,7 @@ const BoardsService = {
             })
     },
     getById(knex, id) {
-        return knex.from('boards').select('*').where('id', id).first()
-    },
-    getByName(knex, name) {
-        return knex.from('boards').select('*').where('name', name).first()
+        return knex.from('boards').select('*').where('id', id).first().then(board => this.addInfoToBoards(board))
     },
     deleteBoard(knex, id) {
         return knex('boards')

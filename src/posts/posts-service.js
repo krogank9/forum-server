@@ -2,6 +2,9 @@ const UsersService = require('../users/users-service');
 
 const PostsService = {
     addInfoToPosts(knex, posts) {
+        if(!posts)
+            return posts
+        
         let p = Array.isArray(posts) ? posts : [posts]
 
         p = p.map(post => {

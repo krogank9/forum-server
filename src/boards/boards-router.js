@@ -68,16 +68,7 @@ boardsRouter.route('/:board_id')
     })
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
-        BoardsService.getById(knexInstance, req.params.board_id)
-            .then(board => {
-                if (!board) {
-                    return res.status(404).json({
-                        error: { message: `Board doesn't exist` }
-                    })
-                }
-                res.json(serializeBoard(board))
-            })
-            .catch(next)
+        res.json(serializeBoard(res.board))
     })
 /*
     .delete((req, res, next) => {

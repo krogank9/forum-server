@@ -3,6 +3,9 @@ const UsersService = require('../users/users-service');
 
 const ThreadsService = {
     addInfoToThreads(knex, threads) {
+        if(!threads)
+            return threads
+            
         let t = Array.isArray(threads) ? threads : [threads]
 
         t = t.map(thread => {

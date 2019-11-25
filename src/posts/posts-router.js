@@ -20,7 +20,7 @@ postsRouter.route('/')
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         PostsService.getAllPosts(knexInstance, req.query.thread_id)
-            .then(posts  => {
+            .then(posts => {
                 console.log(posts)
                 res.json(posts.map(serializePost))
             })
@@ -52,6 +52,19 @@ postsRouter.route('/')
     })
 
 postsRouter.route('/:post_id')
+    .get((req, res, next) => {
+        const knexInstance = req.app.get('db')
+        PostsService.getById(knexInstance, req.params.post_id)
+            .then(post => {
+                if (!post) {
+                    return res.status(404).json({
+                        error: { message: `Post doesn't exist` }
+                    })
+                }
+                res.json(serializePost(post))
+            })
+            .catch(next)
+    })
     .all(requireAuth, (req, res, next) => {
         PostsService.getById(
             req.app.get('db'),
@@ -63,7 +76,7 @@ postsRouter.route('/:post_id')
                         error: { message: `Post doesn't exist` }
                     })
                 }
-                else if(post.author_id !== req.user.id) {
+                else if (post.author_id !== req.user.id) {
                     return res.status(401).json({
                         error: { message: 'Unauthorized request' }
                     })
@@ -71,19 +84,6 @@ postsRouter.route('/:post_id')
 
                 res.post = post // save the post for the next middleware
                 next()
-            })
-            .catch(next)
-    })
-    .get((req, res, next) => {
-        const knexInstance = req.app.get('db')
-        PostsService.getById(knexInstance, req.params.post_id)
-            .then(post => {
-                if (!post) {
-                    return res.status(404).json({
-                        error: { message: `Post doesn't exist` }
-                    })
-                }
-                res.json(serializePost(post))
             })
             .catch(next)
     })

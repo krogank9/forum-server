@@ -1,0 +1,3 @@
+organize tests properly
+do all tests not just MVP (update, delete for posts/threads etc) 
+xss tests for all

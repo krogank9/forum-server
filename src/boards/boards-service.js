@@ -2,6 +2,9 @@ const ThreadsService = require('../threads/threads-service');
 
 const BoardsService = {
     addInfoToBoards(knex, boards) {
+        if(!boards)
+            return boards
+
         let b = Array.isArray(boards) ? boards : [boards]
 
         // return the number of threads in each board too
@@ -22,11 +25,11 @@ const BoardsService = {
             .into('boards')
             .returning('*')
             .then(rows => {
-                return rows[0]
+                return this.addInfoToBoards(knex, rows[0])
             })
     },
     getById(knex, id) {
-        return knex.from('boards').select('*').where('id', id).first().then(board => this.addInfoToBoards(board))
+        return knex.from('boards').select('*').where('id', id).first().then(board => this.addInfoToBoards(knex, board))
     },
     deleteBoard(knex, id) {
         return knex('boards')

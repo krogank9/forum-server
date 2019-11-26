@@ -20,7 +20,7 @@ app.use(
     }*/)
 );
 
-app.use(morgan((NODE_ENV === 'production') ? 'tiny' : 'common'))
+app.use(morgan((NODE_ENV === 'production') ? 'common' : 'common'))
 app.use(helmet())
 
 app.use('/api/boards', boardsRouter)

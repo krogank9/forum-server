@@ -8,21 +8,26 @@ const jsonParser = express.json()
 const serializeUser = user => ({
   id: user.id,
   date_created: user.date_created,
-  user_name: user.user_name,
+  user_name: xss(user.user_name, {whiteList: []}),
+  profilePic: user.profilePic,
 //  admin: user.admin,
 })
 
 usersRouter
   .post('/', jsonParser, (req, res, next) => {
-    const { password, user_name } = req.body
+    const { password, user_name, profile_picture } = req.body
 
-    for (const field of ['user_name', 'password'])
+    for (const field of ['user_name', 'password', 'profile_picture'])
       if (!req.body[field])
         return res.status(400).json({
           error: `Missing '${field}' in request body`
         })
 
-    // TODO: check user_name doesn't start with spaces
+        
+    const usernameError = UsersService.validateUsername(username)
+
+    if (usernameError)
+      return res.status(400).json({ error: usernameError })
 
     const passwordError = UsersService.validatePassword(password)
 
@@ -43,6 +48,7 @@ usersRouter
               user_name,
               password: hashedPassword,
               date_created: 'now()',
+              profile_picture
             }
 
             return UsersService.insertUser(

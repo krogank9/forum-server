@@ -9,7 +9,7 @@ const PostsService = {
 
         p = p.map(post => {
             return UsersService.getById(knex, post.author_id).then(user => {
-                return { ...post, author_name: user.user_name };
+                return { ...post, author_name: user.user_name, author_picture: user.profile_picture };
             })
         })
 

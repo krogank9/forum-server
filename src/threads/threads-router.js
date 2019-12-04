@@ -10,12 +10,12 @@ const jsonParser = express.json()
 
 const serializeThread = thread => ({
     id: thread.id,
-    name: xss(thread.name),
+    name: xss(thread.name, {whiteList: []}),
     author_id: thread.author_id,
     date_created: thread.date_created,
     board_id: thread.board_id,
     reply_count: thread.reply_count,
-    author_name: thread.author_name,
+    author_name: xss(thread.author_name, {whiteList: []}),
 })
 
 threadsRouter.route('/')
@@ -38,6 +38,12 @@ threadsRouter.route('/')
                 })
             }
         }
+
+        
+        const threadNameError = UsersService.validateThreadName(newThread.name)
+
+        if (threadNameError)
+          return res.status(400).json({ error: threadNameError })
 
         ThreadsService.insertThread(
             req.app.get('db'),

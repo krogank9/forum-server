@@ -9,7 +9,7 @@ const jsonParser = express.json()
 
 const serializeBoard = board => ({
     id: board.id,
-    name: xss(board.name),
+    name: xss(board.name, {whiteList: []}),
     threadCount: board.threadCount
 })
 

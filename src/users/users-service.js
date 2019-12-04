@@ -20,6 +20,22 @@ const UsersService = {
       .returning('*')
       .then(([user]) => user)
   },
+  validateUsername(username) {
+    const lettersNumbersUnderscore = /^\w+$/;
+    const doubleUnderscores = /(?!.*__.*)/;
+    const startsWithUnderscore = /^_.*/;
+    const endsWithUnderscore = /.*_$/;
+    if (!lettersNumbersUnderscore.test(username)) {
+      return 'Username may only contain letters, numbers, and underscores.'
+    }
+    else if (username.indexOf("__") !== -1) {
+      return 'Username may not contain 2 underscores in a row'
+    }
+    else if (startsWithUnderscore.test(username) || endsWithUnderscore.test(username)) {
+      return 'Username may not start or end with an underscore'
+    }
+    return null
+  },
   validatePassword(password) {
     if (password.length < 8) {
       return 'Password be longer than 8 characters'

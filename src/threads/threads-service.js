@@ -3,15 +3,15 @@ const UsersService = require('../users/users-service');
 
 const ThreadsService = {
     addInfoToThreads(knex, threads) {
-        if(!threads)
+        if (!threads)
             return threads
-            
+
         let t = Array.isArray(threads) ? threads : [threads]
 
         t = t.map(thread => {
             return UsersService.getById(knex, thread.author_id)
                 .then(user => {
-                    return { ...thread, author_name: user.user_name };
+                    return { ...thread, author_name: user.user_name, author_picture: user.profile_picture };
                 })
                 .then(thread => {
                     return PostsService.countPostsInThread(knex, thread.id).then(count => {
@@ -47,6 +47,22 @@ const ThreadsService = {
                     .then(() => this.addInfoToThreads(knex, thread))
                 //return rows[0]
             })
+    },
+    validateThreadSubmission(threadName) {
+        const lettersNumbersDash = /^([a-zA-Z0-9 -]+)$/;
+        const doubleDashes = /(?!.*--.*)/;
+        const startsWithDash = /^-.*/;
+        const endsWithDash = /.*-$/;
+        if (!lettersNumbersDash.test(threadName)) {
+            return 'Thread name may only contain letters, numbers, and dashes.'
+        }
+        else if (threadName.indexOf("--") !== -1) {
+            return 'Thread name contains too many dashes!'
+        }
+        else if (startsWithDash.test(threadName) || endsWithDash.test(threadName)) {
+            return 'Thread name may not start or end with a dash'
+        }
+        return null
     },
     getById(knex, id) {
         return knex.from('threads').select('*').where('id', id).first().then(threads => this.addInfoToThreads(knex, threads))

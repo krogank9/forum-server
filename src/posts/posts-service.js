@@ -39,6 +39,7 @@ const PostsService = {
             })
     },
     getById(knex, id) {
+        id = parseInt(id) || 0
         return knex.from('posts').select('*').where('id', id).first().then(post => this.addInfoToPosts(knex, post))
     },
     deletePost(knex, id) {

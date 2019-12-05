@@ -29,6 +29,7 @@ const BoardsService = {
             })
     },
     getById(knex, id) {
+        id = parseInt(id) || 0
         return knex.from('boards').select('*').where('id', id).first().then(board => this.addInfoToBoards(knex, board))
     },
     deleteBoard(knex, id) {

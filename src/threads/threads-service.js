@@ -65,6 +65,7 @@ const ThreadsService = {
         return null
     },
     getById(knex, id) {
+        id = parseInt(id) || 0
         return knex.from('threads').select('*').where('id', id).first().then(threads => this.addInfoToThreads(knex, threads))
     },
     deleteThread(knex, id) {

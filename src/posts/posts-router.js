@@ -12,8 +12,8 @@ const serializePost = post => ({
     date_created: post.date_created,
     author_id: post.author_id,
     thread_id: post.thread_id,
-    content: xss(post.content, {whiteList: []}),
-    author_name: xss(post.author_name, {whiteList: []}),
+    content: xss(post.content, { whiteList: [] }),
+    author_name: xss(post.author_name, { whiteList: [] }),
     author_picture: post.author_picture
 })
 
@@ -38,6 +38,9 @@ postsRouter.route('/')
                 })
             }
         }
+
+        if (content.trim().length == 0)
+            return res.status(400).json({ error: { message: "Post content missing" } })
 
         PostsService.insertPost(
             req.app.get('db'),

@@ -38,12 +38,14 @@ threadsRouter.route('/')
                 })
             }
         }
-
         
         const threadNameError = UsersService.validateThreadName(newThread.name)
 
         if (threadNameError)
           return res.status(400).json({ error: threadNameError })
+
+        if (first_post_content.trim().length == 0)
+          return res.status(400).json({ error: { message: "First post content missing" } })
 
         ThreadsService.insertThread(
             req.app.get('db'),

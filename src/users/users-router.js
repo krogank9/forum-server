@@ -24,7 +24,7 @@ usersRouter
         })
 
         
-    const usernameError = UsersService.validateUsername(username)
+    const usernameError = UsersService.validateUsername(user_name)
 
     if (usernameError)
       return res.status(400).json({ error: usernameError })

@@ -5,6 +5,7 @@ const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*
 
 const UsersService = {
   getById(knex, id) {
+    id = parseInt(id) || 0
     return knex.from('users').select('*').where('id', id).first()
   },
   hasUserWithUserName(db, user_name) {

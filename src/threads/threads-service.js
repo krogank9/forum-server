@@ -15,7 +15,10 @@ const ThreadsService = {
                 })
                 .then(thread => {
                     return PostsService.countPostsInThread(knex, thread.id).then(count => {
-                        return { ...thread, reply_count: count - 1 }
+                        const newThread = { ...thread, reply_count: count - 1 }
+                        return knex.from('boards').select('*').where('id', newThread.board_id).first().then(board => {
+                            return {...newThread, board_name: board.name}
+                        })
                     })
                 })
         })
@@ -48,7 +51,7 @@ const ThreadsService = {
                 //return rows[0]
             })
     },
-    validateThreadSubmission(threadName) {
+    validateThreadName(threadName) {
         const lettersNumbersDash = /^([a-zA-Z0-9 -]+)$/;
         const doubleDashes = /(?!.*--.*)/;
         const startsWithDash = /^-.*/;
@@ -56,11 +59,11 @@ const ThreadsService = {
         if (!lettersNumbersDash.test(threadName)) {
             return 'Thread name may only contain letters, numbers, and dashes.'
         }
-        else if (threadName.indexOf("--") !== -1) {
-            return 'Thread name contains too many dashes!'
-        }
         else if (startsWithDash.test(threadName) || endsWithDash.test(threadName)) {
             return 'Thread name may not start or end with a dash'
+        }
+        else if (threadName.indexOf("--") !== -1) {
+            return 'Thread name contains too many dashes!'
         }
         return null
     },

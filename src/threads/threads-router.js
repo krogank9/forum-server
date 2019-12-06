@@ -16,6 +16,7 @@ const serializeThread = thread => ({
     board_id: thread.board_id,
     reply_count: thread.reply_count,
     author_name: xss(thread.author_name, {whiteList: []}),
+    board_name: thread.board_name,
 })
 
 threadsRouter.route('/')
@@ -39,13 +40,13 @@ threadsRouter.route('/')
             }
         }
         
-        const threadNameError = UsersService.validateThreadName(newThread.name)
+        const threadNameError = ThreadsService.validateThreadName(newThread.name)
 
         if (threadNameError)
           return res.status(400).json({ error: threadNameError })
 
         if (first_post_content.trim().length == 0)
-          return res.status(400).json({ error: { message: "First post content missing" } })
+          return res.status(400).json({ error: "First post content missing" })
 
         ThreadsService.insertThread(
             req.app.get('db'),

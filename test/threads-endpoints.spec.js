@@ -124,6 +124,9 @@ describe('Threads Endpoints', function () {
             .set('Authorization', 'Bearer ' + authToken)
             .send({ name: "no board id or first post" })
             .expect(400)
+            .expect(res => {
+              expect(res.body.error).to.eql("Missing 'board_id' in request body")
+            })
         })
     })
 

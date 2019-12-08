@@ -53,17 +53,27 @@ describe('Users Endpoints', function () {
 
     context('Given there are users in the database', () => {
 
+      it('/api/users create responds with 400 on missing field', () => {
+        return supertest(app)
+          .post('/api/users')
+          .send({ password: "abc123", profile_picture: 1 })
+          .expect(400)
+          .expect(res => {
+            expect(res.body.error).to.eql("Missing 'user_name' in request body")
+          })
+      })
+
       it('/api/users create responds with 400 on weak password', () => {
         return supertest(app)
           .post('/api/users')
-          .send({ user_name: "new_user", password: "abc123" })
+          .send({ user_name: "new_user", password: "abc123", profile_picture: 1 })
           .expect(400)
       })
 
       it('/api/users create responds with correct user info on success', () => {
         return supertest(app)
           .post('/api/users')
-          .send({ user_name: "new_user", password: "Password1234!" })
+          .send({ user_name: "new_user", password: "Password1234!", profile_picture: 1 })
           .expect(201)
           .expect(res => {
             expect(res.body.id).to.eql(1)

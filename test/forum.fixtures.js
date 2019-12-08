@@ -25,18 +25,21 @@ function makeUsersArray() {
       id: 1,
       user_name: 'logan',
       password: '$2y$12$KO.8g35QGwgvKffmdwG.A.NmkX0JKp6kLN.6UFTEJujbnHo4Qkn9W',//'Password1234!',
+      profile_picture: 1,
       admin: true
     },
     {
       id: 2,
       user_name: 'maggie',
       password: '$2y$12$KO.8g35QGwgvKffmdwG.A.NmkX0JKp6kLN.6UFTEJujbnHo4Qkn9W',//'Password1234!',
+      profile_picture: 2,
       admin: true
     },
     {
       id: 3,
       user_name: 'djole',
       password: '$2y$12$KO.8g35QGwgvKffmdwG.A.NmkX0JKp6kLN.6UFTEJujbnHo4Qkn9W',//'Password1234!',
+      profile_picture: 3,
       admin: true
     },
   ]
@@ -46,7 +49,7 @@ function makeThreadsArray(simulateResponse) {
   let s = simulateResponse
   return [
     {
-      ...(s?{author_name: 'djole', reply_count: 1}:{}),
+      ...(s?{author_name: 'djole', reply_count: 1, board_name: "Programming"}:{}),
       id: 1,
       name: 'Coding thread',
       author_id: 3,
@@ -54,7 +57,7 @@ function makeThreadsArray(simulateResponse) {
       date_created: new Date().toISOString()
     },
     {
-      ...(s?{author_name: 'maggie', reply_count: 0}:{}),
+      ...(s?{author_name: 'maggie', reply_count: 0, board_name: "Nature"}:{}),
       id: 2,
       name: 'Outdoors thread',
       author_id: 2,
@@ -62,7 +65,7 @@ function makeThreadsArray(simulateResponse) {
       date_created: new Date().toISOString()
     },
     {
-      ...(s?{author_name: 'logan', reply_count: 0}:{}),
+      ...(s?{author_name: 'logan', reply_count: 0, board_name: "Random"}:{}),
       id: 3,
       name: 'Memes thread',
       author_id: 1,
@@ -76,7 +79,7 @@ function makePostsArray(simulateResponse) {
   let s = simulateResponse
   return [
     {
-      ...(s?{author_name: 'djole'}:{}),
+      ...(s?{author_name: 'djole', author_picture: 3}:{}),
       id: 1,
       thread_id: 1,
       author_id: 3,
@@ -84,7 +87,7 @@ function makePostsArray(simulateResponse) {
       date_created: new Date().toISOString()
     },
     {
-      ...(s?{author_name: 'maggie'}:{}),
+      ...(s?{author_name: 'maggie', author_picture: 2}:{}),
       id: 2,
       thread_id: 2,
       author_id: 2,
@@ -92,7 +95,7 @@ function makePostsArray(simulateResponse) {
       date_created: new Date().toISOString()
     },
     {
-      ...(s?{author_name: 'logan'}:{}),
+      ...(s?{author_name: 'logan', author_picture: 1}:{}),
       id: 3,
       thread_id: 3,
       author_id: 1,
@@ -100,7 +103,7 @@ function makePostsArray(simulateResponse) {
       date_created: new Date().toISOString()
     },
     {
-      ...(s?{author_name: 'logan'}:{}),
+      ...(s?{author_name: 'logan', author_picture: 1}:{}),
       id: 4,
       thread_id: 1,
       author_id: 1,

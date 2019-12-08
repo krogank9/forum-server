@@ -14,10 +14,12 @@ const authRouter = require('./auth/auth-router')
 
 const app = express()
 
+console.log(process.env.NODE_ENV)
+
 app.use(
-    cors(/*{
+    cors({
         origin: CLIENT_ORIGIN
-    }*/)
+    })
 );
 
 app.use(morgan((NODE_ENV === 'production') ? 'common' : 'common'))

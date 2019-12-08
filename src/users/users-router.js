@@ -11,7 +11,7 @@ const serializeUser = user => ({
   date_created: user.date_created,
   user_name: xss(user.user_name, {whiteList: []}),
   profilePic: user.profilePic,
-//  admin: user.admin,
+  admin: user.admin,
 })
 
 usersRouter

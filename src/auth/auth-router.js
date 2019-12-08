@@ -5,6 +5,8 @@ const { requireAuth } = require('../middleware/jwt-auth')
 const authRouter = express.Router()
 const jsonBodyParser = express.json()
 
+// Login by hashing password & comparing it with the stored hash in the server
+// If correct user & password, respond with a JWT token that can be used for authorization to protected endpoints
 authRouter
   .post('/login', jsonBodyParser, (req, res, next) => {
     const { user_name, password } = req.body
@@ -45,6 +47,7 @@ authRouter
       .catch(next)
   })
 
+// Allow JWT given in previous session to be refreshed as long as it's not past the expiry date
 authRouter.post('/refresh', requireAuth, (req, res) => {
   const sub = req.user.user_name
   const payload = { user_id: req.user.id }

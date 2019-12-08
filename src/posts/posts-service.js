@@ -1,6 +1,7 @@
 const UsersService = require('../users/users-service');
 
 const PostsService = {
+    // Info from UsersService is pulled in to return relevant information for when displaying a thread to the user
     addInfoToPosts(knex, posts) {
         if(!posts)
             return posts

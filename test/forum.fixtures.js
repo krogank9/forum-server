@@ -1,3 +1,5 @@
+// If simulateResponse is passed to fixture generate functions,
+// add fields that are only returned by server in responses
 function makeBoardsArray(simulateResponse) {
   responseOnly = simulateResponse? {threadCount: 0} : {}
   return [
@@ -113,12 +115,13 @@ function makePostsArray(simulateResponse) {
   ];
 }
 
-
+// xss module should filter out attack code in posts
 function makeMaliciousPost() {
   const maliciousPost = {
     id: 911,
     thread_id: 1,
     author_id: 1,
+    author_picture: 1,
     content: 'Naughty naughty very naughty <script>alert("xss");</script>',
   }
   const expectedPost = {

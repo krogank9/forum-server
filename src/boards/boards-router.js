@@ -22,32 +22,6 @@ boardsRouter.route('/')
             })
             .catch(next)
     })
-/*
-    .post(jsonParser, (req, res, next) => {
-        const { name } = req.body
-        const newBoard = { "name": name }
-
-        for (const [key, value] of Object.entries(newBoard)) {
-            if (value == null) {
-                return res.status(400).json({
-                    error: { message: `Missing '${key}' in request body` }
-                })
-            }
-        }
-
-        BoardsService.insertBoard(
-            req.app.get('db'),
-            newBoard
-        )
-            .then(board => {
-                res
-                    .location(path.posix.join(req.originalUrl, `/${board.id}`))
-                    .status(201)
-                    .json(serializeBoard(board))
-            })
-            .catch(next)
-    })
-*/
 
 boardsRouter.route('/:board_id')
     .all((req, res, next) => {
@@ -70,40 +44,5 @@ boardsRouter.route('/:board_id')
         const knexInstance = req.app.get('db')
         res.json(serializeBoard(res.board))
     })
-/*
-    .delete((req, res, next) => {
-        BoardsService.deleteBoard(
-            req.app.get('db'),
-            req.params.board_id
-        )
-            .then(() => {
-                res.status(204).end()
-            })
-            .catch(next)
-    })
-    .patch(jsonParser, (req, res, next) => {
-        const { name } = req.body
-        const boardToUpdate = { name }
-
-        const numberOfValues = Object.values(boardToUpdate).filter(Boolean).length
-        if (numberOfValues === 0) {
-            return res.status(400).json({
-                error: {
-                    message: `Request body must contain 'name'`
-                }
-            })
-        }
-
-        BoardsService.updateBoard(
-            req.app.get('db'),
-            req.params.board_id,
-            boardToUpdate
-        )
-            .then(numRowsAffected => {
-                res.status(204).end()
-            })
-            .catch(next)
-    })
-*/
 
 module.exports = boardsRouter

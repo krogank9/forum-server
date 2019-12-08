@@ -19,9 +19,6 @@ describe('Threads Endpoints', function () {
 
   afterEach('cleanup', () => db.raw('TRUNCATE users, boards, threads RESTART IDENTITY CASCADE'))
 
-  // GET /threads
-  // GET /threads?board_id
-  // GET /threads/resource_id
   describe(`GET /api/threads`, () => {
 
     context('Given there is data in the database', () => {
@@ -89,7 +86,6 @@ describe('Threads Endpoints', function () {
     })
   })
 
-  // POST /threads
   describe(`POST /api/threads`, () => {
     const testBoards = makeBoardsArray();
     const testUsers = makeUsersArray();

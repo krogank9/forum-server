@@ -21,6 +21,7 @@ const UsersService = {
       .returning('*')
       .then(([user]) => user)
   },
+  // Perform validation on username to allow only certain characters/combos
   validateUsername(username) {
     const lettersNumbersUnderscore = /^\w+$/;
     const doubleUnderscores = /(?!.*__.*)/;
@@ -37,6 +38,7 @@ const UsersService = {
     }
     return null
   },
+  // Perform validation on password to make sure it's strong enough
   validatePassword(password) {
     if (password.length < 8) {
       return 'Password must be longer than 8 characters'

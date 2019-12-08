@@ -2,6 +2,7 @@ const PostsService = require('../posts/posts-service');
 const UsersService = require('../users/users-service');
 
 const ThreadsService = {
+    // Info from PostsService & UsersService pulled in to return relevant information when querying a thread
     addInfoToThreads(knex, threads) {
         if (!threads)
             return threads
@@ -16,6 +17,8 @@ const ThreadsService = {
                 .then(thread => {
                     return PostsService.countPostsInThread(knex, thread.id).then(count => {
                         const newThread = { ...thread, reply_count: count - 1 }
+                        // Also needed to query Boards, but BoardsService already requires/depends on this file.
+                        // Pulled getById database query from BoardsService to return the board name for a thread too
                         return knex.from('boards').select('*').where('id', newThread.board_id).first().then(board => {
                             return {...newThread, board_name: board.name}
                         })

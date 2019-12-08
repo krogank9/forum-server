@@ -19,9 +19,6 @@ describe('Posts Endpoints', function () {
 
   afterEach('cleanup', () => db.raw('TRUNCATE users, boards, threads, posts RESTART IDENTITY CASCADE'))
 
-  // GET /posts
-  // GET /posts?thread_id
-  // GET /posts/resource_id
   describe(`GET /api/posts`, () => {
 
     context('Given there is data in the database', () => {
@@ -94,6 +91,7 @@ describe('Posts Endpoints', function () {
     const testBoards = makeBoardsArray();
     const testThreads = makeThreadsArray();
     const testUsers = makeUsersArray();
+    const { maliciousPost, expectedPost } = makeMaliciousPost();
 
     beforeEach('insert dummy forum data', () => {
       return db
@@ -156,6 +154,34 @@ describe('Posts Endpoints', function () {
               expect(res.body.author_id).to.eql(userId)
               expect(res.body.thread_id).to.eql(2)
               expect(res.body.content).to.eql("new post")
+            })
+        })
+    })
+
+    it('/api/posts create responds with correctly cleaned post when given XSS attack code', () => {
+      // login first
+      return supertest(app)
+        .post('/api/auth/login')
+        .send({ user_name: "logan", password: "Password1234!" })
+        .expect(200)
+        .expect(res => {
+          expect(res.body.authToken).to.be.a('string')
+          expect(res.body.userName).to.eql("logan")
+          expect(res.body.userId).to.eql(1)
+          let userId = res.body.userId
+          let authToken = res.body.authToken
+
+          // now logged in, create post
+          return supertest(app)
+            .post('/api/posts')
+            .set('Authorization', 'Bearer ' + authToken)
+            .send(maliciousPost)
+            .expect(201)
+            .expect(res => {
+              expect(res.body).to.eql({
+                ...maliciousPost,
+                content: expectedPost.content
+              })
             })
         })
     })

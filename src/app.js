@@ -14,8 +14,6 @@ const authRouter = require('./auth/auth-router')
 
 const app = express()
 
-console.log(process.env.NODE_ENV)
-
 app.use(
     cors({
         origin: CLIENT_ORIGIN

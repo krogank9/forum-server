@@ -1,5 +1,8 @@
 const AuthService = require('../auth/auth-service')
 
+// Middleware to accept JWT token in Authorization header
+// Checks if token for user is still up to date and not expired
+// If all is good allow to progress to the next middleware
 function requireAuth(req, res, next) {
   const authToken = req.get('Authorization') || ''
 

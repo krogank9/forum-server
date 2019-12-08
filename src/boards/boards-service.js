@@ -1,13 +1,14 @@
 const ThreadsService = require('../threads/threads-service');
 
 const BoardsService = {
+    // Info from ThreadsService is pulled in to return relevant information when querying a board
     addInfoToBoards(knex, boards) {
         if(!boards)
             return boards
 
         let b = Array.isArray(boards) ? boards : [boards]
 
-        // return the number of threads in each board too
+        // return the current number of threads in each board too
         b = b.map(curBoard => {
             return ThreadsService.countThreadsInBoard(knex, curBoard.id).then(count => {
                 return { ...curBoard, threadCount: count }

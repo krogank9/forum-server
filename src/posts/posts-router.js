@@ -69,6 +69,8 @@ postsRouter.route('/:post_id')
             })
             .catch(next)
     })
+    // All actions besides querying the info about a posts requires authorization,
+    // and only the current user or an admin can do things such as delete/update their posts
     .all(requireAuth, (req, res, next) => {
         PostsService.getById(
             req.app.get('db'),
@@ -80,7 +82,7 @@ postsRouter.route('/:post_id')
                         error: { message: `Post doesn't exist` }
                     })
                 }
-                else if (post.author_id !== req.user.id) {
+                else if (post.author_id !== req.user.id && !req.user.admin) {
                     return res.status(401).json({
                         error: { message: 'Unauthorized request' }
                     })

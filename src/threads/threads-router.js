@@ -88,7 +88,8 @@ threadsRouter.route('/:thread_id')
             })
             .catch(next)
     })
-    //For all but get require auth:
+    // For all but get require auth:
+    // Only person who may delete/update a users post is himself or an admin 
     .all(requireAuth, (req, res, next) => {
         ThreadsService.getById(
             req.app.get('db'),
@@ -100,7 +101,7 @@ threadsRouter.route('/:thread_id')
                         error: { message: `Thread doesn't exist` }
                     })
                 }
-                else if (thread.author_id !== req.user.id) {
+                else if (thread.author_id !== req.user.id && !req.user.admin) {
                     return res.status(401).json({
                         error: { message: 'Unauthorized request' }
                     })

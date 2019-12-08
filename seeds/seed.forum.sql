@@ -1,9 +1,10 @@
 INSERT INTO users (user_name, password, admin, profile_picture)
 VALUES
-  ('logan', '$2y$12$MtaFGoP9Wqt52Tv3d3jjAeUSjm7.06yOvJS6yCP4XVtFZ7sg0J5Pq', TRUE, 1),
-  ('djole', '$2y$12$MtaFGoP9Wqt52Tv3d3jjAeUSjm7.06yOvJS6yCP4XVtFZ7sg0J5Pq', FALSE, 2),
-  ('maggie', '$2y$12$MtaFGoP9Wqt52Tv3d3jjAeUSjm7.06yOvJS6yCP4XVtFZ7sg0J5Pq', FALSE, 3),
-  ('sam', '$2y$12$MtaFGoP9Wqt52Tv3d3jjAeUSjm7.06yOvJS6yCP4XVtFZ7sg0J5Pq', FALSE, 4);
+  ('logan', '$2y$12$l6D6NqNrO5pkN.VV7Tgurer9hrEP/TYQJVqC3uVQ4k4FxQDToU3jK', TRUE, 1),
+  ('djole', '$2y$12$l6D6NqNrO5pkN.VV7Tgurer9hrEP/TYQJVqC3uVQ4k4FxQDToU3jK', FALSE, 2),
+  ('maggie', '$2y$12$l6D6NqNrO5pkN.VV7Tgurer9hrEP/TYQJVqC3uVQ4k4FxQDToU3jK', FALSE, 3),
+  ('sam', '$2y$12$l6D6NqNrO5pkN.VV7Tgurer9hrEP/TYQJVqC3uVQ4k4FxQDToU3jK', FALSE, 4);
+  ('test', '$2y$12$MtaFGoP9Wqt52Tv3d3jjAeUSjm7.06yOvJS6yCP4XVtFZ7sg0J5Pq', FALSE, 5);
 
 --passwords = abc123
 

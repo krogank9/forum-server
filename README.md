@@ -12,78 +12,77 @@ Demo: https://forum-client.now.sh/
 
 ### requireAuth middleware
 
-* accepts Authorization header, in the format "Bearer {token}"
-* can be used to protect any endpoint, and if so, you must attach JWT given at login with request in header
+* Accepts Authorization header, in the format "Bearer {token}"
+* Can be used to protect any endpoint, and if so, you must attach JWT given at login with request in header.
 
 ### Auth
 
 * /login POST
-  * accepts "user_name" and "password" keys in request body
-  * responds with "authToken", "userName", and "userId" on success
-* /refresh POST
-  * requires authorization
-  * updates the authToken previously given by a login, refreshing its expiry timer
-  * responds with "authToken", "userName", and "userId" on success
+  * Accepts "user_name" and "password" keys in request body.
+  * Responds with "authToken", "userName", and "userId" on success.
+* /refresh POST - REQUIRES AUTHORIZATION
+  * Updates the authToken previously given by a login, refreshing its expiry timer.
+  * Responds with "authToken", "userName", and "userId" on success.
   
 ### Users
 
-* returned user objects contains fields: "id", "date_created", "user_name", "profilePic", "admin"
+* Returned user objects contains fields: "id", "date_created", "user_name", "profilePic", "admin"
 
 * /users POST
-  * accepts "user_name", "password" and "profile_picture" keys in request body
-  * responds with newly created user's object
+  * Accepts "user_name", "password" and "profile_picture" keys in request body.
+  * Responds with newly created user's object.
 * /users/:user_id GET
-  * returns user object for given id on success
+  * Returns user object for given id on success.
 
 ### Boards
 
-* returned board objects contain fields: "id", "name", "threadCount"
+* Returned board objects contain fields: "id", "name", "threadCount"
 
 * /boards GET
-  * returns array of board objects that exist in the database
+  * Returns array of board objects that exist in the database.
 
 * /boards/:board_id GET
-  * returns board object for given id on success
+  * Returns board object for given id on success.
 
 ### Threads
 
-* returned thread objects contain fields: "id", "name", "author_id", "date_created", "board_id", "reply_count", "author_name", "board_name"
+* Returned thread objects contain fields: "id", "name", "author_id", "date_created", "board_id", "reply_count", "author_name", "board_name"
 
 * /threads GET
-  * returns a list of all thread objects in the database on any board
+  * Returns a list of all thread objects in the database on any board.
 
 * /threads POST - REQUIRES AUTH
-  * accepts "name", "board_id", "first_post_content" keys in request body
-  * returns newly created thread object on success
+  * Accepts "name", "board_id", "first_post_content" keys in request body.
+  * Returns newly created thread object on success.
 
 * /threads/:thread_id GET
-  * returns thread object for given id on success
+  * Returns thread object for given id on success.
 
 * /threads/:thread_id DELETE - REQUIRES AUTH
-  * returns 204 & deletes thread on success
-  * may only be performed by user who created thread or admin
+  * Returns 204 & deletes thread on success.
+  * May only be performed by user who created thread or admin.
 
 * /threads/:thread_id PATCH - REQUIRES AUTH
-  * returns 204 on success & updates the thread
+  * Returns 204 on success & updates the thread.
 
 ### Posts
 
-* returned post objects contain fields: "id", "date_created", "author_id", "thread_id", "content", "author_name", "author_picture"
+* Returned post objects contain fields: "id", "date_created", "author_id", "thread_id", "content", "author_name", "author_picture"
 
 * /posts GET
-  * returns a list of all post objects in the database on any board/thread
+  * Returns a list of all post objects in the database on any board/thread.
 
 * /posts POST - REQUIRES AUTH
-  * accepts "content" & "thread_id" keys in request body
-  * returns newly created post object on success
+  * Accepts "content" & "thread_id" keys in request body.
+  * Returns newly created post object on success.
 
 * /posts/:post_id GET
-  * returns post object for given id on success
+  * Returns post object for given id on success.
 
 * /posts/:post_id DELETE - REQUIRES AUTH
-  * returns 204 & deletes post on success
-  * may only be performed by user who created post or admin
+  * Returns 204 & deletes post on success.
+  * May only be performed by user who created post or admin.
 
 * /threads/:thread_id PATCH - REQUIRES AUTH
-  * returns 204 on success & updates the post
+  * Returns 204 on success & updates the post.
   

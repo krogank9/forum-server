@@ -5,5 +5,5 @@ module.exports = {
 	TEST_DATABASE_URL: process.env.TEST_DATABASE_URL || 'postgresql://dunder_mifflin@localhost/forum-test',
 	JWT_SECRET: process.env.JWT_SECRET,
 	JWT_EXPIRY: 60*60,
-	CLIENT_ORIGIN: process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://forum-client.now.sh"
+	CLIENT_ORIGIN: process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://forum-client.vercel.app/"
 }
